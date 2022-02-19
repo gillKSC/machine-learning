@@ -33,49 +33,28 @@ class Model(object):
 
 class LogisticRegressionSGD(Model):
 
-    def __init__(self, n_features, learning_rate = 0.1):
-        super().__init__()
-        self.n_features = n_features
-        self.learning_rate = learning_rate
-        pass
+    def __init__(self, alpha=0.01, n_iters=1000):
+        self.alpha = alpha
+        self.n_iters = n_iters
+        self.theta = None
+        self.bias = None
 
     def fit(self, X, y):
-        m = np.zeros_like(X[0])
-        epochs = 50  # no. of iterations for optimization
+        n_samples, n_features = X.shape
+        self.bias = 0
+        self.theta = np.zeros((n_features, 1))
 
-        # Performing Gradient Descent Optimization
-        # for every epoch
-        for epoch in range(1, epochs + 1):
-            # for every data point(X_train,y_train)
-            for i in range(len(X)):
-                # compute gradient w.r.t 'm'
-                gr_wrt_m = X[i] * (y[i] - sigmoid(np.dot(self.n_features.T, X[i])))
-                # update m, c
-                self.n_features = self.n_features - self.learning_rate * gr_wrt_m
-        pass
+        for _ in range(self.n_iters):
+            linear_model = self.bias + np.dot(self.theta, X.T)
+            y_pred = sigmoid(linear_model)
 
-    def predict(self, X):
-        predictions = []
-        for i in range(len(X)):
-            z = np.dot(self.n_features, X[i])
-            y_pred = sigmoid(z)
-            if y_pred >= 0.5:
-                predictions.append(1)
-            else:
-                predictions.append(0)
-        return predictions
+            dw = np.dot((y_pred - y), X) / n_samples
+            db = np.sum(y_pred - y) / n_samples
 
-class LogisticRegressionNewton(Model):
-
-    def __init__(self, n_features):
-        super().__init__()
-        # TODO: Initialize parameters
-        pass
-
-    def fit(self, X, y):
-        # TODO: Write code to fit the model
-        pass
+            self.theta -= self.alpha * dw
+            self.bias -= self.alpha * db
 
     def predict(self, X):
-        # TODO: Write code to make predictions
-        pass
+        linear_model = self.bias + np.dot(self.theta, X.T)
+        y_pred = sigmoid(linear_model)[0]
+        return [1 if i > 0.5 else 0 for i in y_pred]
