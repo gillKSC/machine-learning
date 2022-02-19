@@ -33,9 +33,10 @@ class Model(object):
 
 class LogisticRegressionSGD(Model):
 
-    def __init__(self, alpha=0.01, n_iters=1000):
-        self.alpha = alpha
-        self.n_iters = n_iters
+    def __init__(self, n_features, learning_rate=0.01):
+        self.learning_rate = learning_rate
+        self.n_features = n_features
+        self.n_iters = 1000
         self.theta = None
         self.bias = None
 
