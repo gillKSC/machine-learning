@@ -106,23 +106,14 @@ class LogisticRegressionNewton(Model):
         X = X.todense()
         n, d = X.shape
 
-
-        R=list()
-        for i in range(n):
-            x_p = X[i, :]
-            logits = np.dot(x_p, self.W)
-            h = sigmoid(logits)
-            
-            p = h*(1-h)
-            R.append(p)
-        R=np.diag(R)
-        H=np.matmul(X.T,R)
-        H=np.matmul(H,X)
-        if det(H+l*np.eye(H.shape[0]))!=0:
-            gradient=np.matmul(inv(H+l*np.eye(H.shape[0]) ) ,np.matmul( X.T, np.matmul(X,self.W.T) - y ) )
-        else:
-            gradient=np.matmul(pinv(H+l*np.eye(H.shape[0]) ) ,np.matmul( X.T, np.matmul(X,self.W.T) - y ) )
-        self.W=self.W-gradient
+        sig = sigmoid(X.dot(self.W))
+        diff = y - sig
+        deriv = np.random.rand(d)
+        for i in range(d):
+            deriv[i] = train_x[:, i].dot(diff)
+        
+        hessian = np.matmul(np.matmul(-1 * np.transpose(X), np.diag(sig * (1 - sig))), X)
+        self.W -= (np.linalg.pinv(hessian).dot(deriv)) / n
 
     def predict(self, X):
         # TODO: Write code to make predictions
