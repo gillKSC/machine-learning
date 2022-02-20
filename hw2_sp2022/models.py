@@ -56,7 +56,7 @@ class LogisticRegressionSGD(Model):
             gradient = np.multiply(x_p, (y_p - h))
 
             self.W = self.W + self.learning_rate * gradient.T
-
+        print(self.W.shape)
 
     
     def predict(self, X):
