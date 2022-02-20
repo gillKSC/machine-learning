@@ -89,5 +89,4 @@ class LogisticRegressionSGD(Model):
 
         y_hat = y_hat.astype(int)
 
-        print(y_hat)
         return y_hat
