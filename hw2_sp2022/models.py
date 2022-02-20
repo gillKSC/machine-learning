@@ -120,7 +120,7 @@ class LogisticRegressionNewton(Model):
         prod = np.matmul(-1 * np.transpose(X), sig_sq)
         print(prod.shape)
         hessian = np.matmul(prod, X)
-        a = np.array(deriv)
+        a = np.asarray(deriv)
         invert = np.linalg.pinv(hessian)
         print(a.shape)
         print(invert.shape)
