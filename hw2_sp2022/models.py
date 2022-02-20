@@ -121,7 +121,10 @@ class LogisticRegressionNewton(Model):
         print(prod.shape)
         hessian = np.matmul(prod, X)
         a = np.array(deriv)
-        self.W -= (np.dot(np.linalg.pinv(hessian), a)) / n
+        invert = np.linalg.pinv(hessian)
+        print(a.shape)
+        print(invert.shape)
+        self.W -= (np.dot(invert, a)) / n
 
     def predict(self, X):
         # TODO: Write code to make predictions
