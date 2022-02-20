@@ -79,7 +79,7 @@ class LogisticRegressionSGD(Model):
         y_hat = sigmoid(logits)
 
         for idx in range(len(y_hat)):
-            y_hat[idx] = 1 if y_hat[idx] > 0.5 else 0
+            y_hat[idx] = 1 if y_hat[idx] >= 0.5 else 0
 
         y_hat = np.squeeze(np.asarray(y_hat))
 
