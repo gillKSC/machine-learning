@@ -49,11 +49,11 @@ class LogisticRegressionSGD(Model):
             x_p = X[i]
             y_p = y[i]
 
-            logits = np.dot(self.W, x_p)
-            h = sigmoid(logits)
+            logits = np.dot(x_p, self.W)
+            h = sigmoid(logits) 
 
 
-            gradient = np.dot(x_p.T, (y_p - h))
+            gradient = np.dot(x_p.T, (h - y_p))
 
         self.W += self.learning_rate * gradient
 
@@ -75,7 +75,7 @@ class LogisticRegressionSGD(Model):
 
         
         X = X.todense()
-        logits = np.dot(self.W, X)
+        logits = np.dot(X, self.W)
         y_hat = sigmoid(logits)
 
         for idx in range(len(y_hat)):
