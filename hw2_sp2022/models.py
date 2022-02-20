@@ -56,7 +56,6 @@ class LogisticRegressionSGD(Model):
             gradient = np.multiply(x_p, (y_p - h))
 
             self.W = self.W + self.learning_rate * gradient.T
-        print(self.W.shape)
 
     
     def predict(self, X):
@@ -68,7 +67,7 @@ class LogisticRegressionSGD(Model):
         y_hat = np.zeros(n)
         for i in range(n):
             x_p = X[i, :]
-            logits = np.dot(self.W, x_p)
+            logits = np.dot(x_p, self.W)
             y_p = sigmoid(logits)
 
             y_hat[i] = 1 if y_p >= 0.5 else 0
