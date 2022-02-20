@@ -40,28 +40,54 @@ class Model(object):
 class LogisticRegressionSGD(Model):
 
     def __init__(self, n_features, learning_rate = 0.01):
+        super().__init__()
         self.n_features = n_features
         self.learning_rate = learning_rate
-        self.n_iters = 1000
-        self.theta = None
-        self.bias = None
+        self.W = np.zeros((n_features, 1))
 
     def fit(self, X, y):
-        n_samples, n_features = X.shape
-        self.bias = 0
-        self.theta = np.zeros((n_features, 1))
+        n, d = X.shape
 
-        for _ in range(self.n_iters):
-            linear_model = self.bias + np.dot(self.theta, X.T)
-            y_pred = sigmoid(linear_model)
+        X = X.todense()
 
-            dw = np.dot((y_pred - y), X) / n_samples
-            db = np.sum(y_pred - y) / n_samples
+        for i in range(self.n_features):
+            x_p = X[i]
+            y_p = y[i]
 
-            self.theta -= self.learning_rate * dw
-            self.bias -= self.learning_rate * db
+            logits = np.dot(x_p, self.W)
+            h = sigmoid(logits)
+
+
+            gradient = np.dot(x_p.T, (h - y_p))
+
+        self.W -= self.learning_rate * gradient
+
+    def _fix_test_feats(self, X):
+        """ Fixes some feature disparities between datasets.
+        Call this before you perform inference to make sure your X features
+        match your weights.
+        """
+        num_examples, num_input_features = X.shape
+        if num_input_features < self.n_features:
+            X = X.copy()
+            X._shape = (num_examples, self.n_features)
+        if num_input_features > self.n_features:
+            X = X[:, :self.n_features]
+        return X
 
     def predict(self, X):
-        linear_model = self.bias + np.dot(self.theta, X.T)
-        y_pred = sigmoid(linear_model)[0]
-        return [1 if i > 0.5 else 0 for i in y_pred]
+
+        X = self._fix_test_feats(X)
+        X = X.todense()
+        logits = np.dot(X, self.W)
+        y_hat = sigmoid(logits)
+
+        for idx in range(len(y_hat)):
+            y_hat[idx] = 1 if y_hat[idx] > 0.5 else 0
+
+        y_hat = np.squeeze(np.asarray(y_hat))
+
+        y_hat = y_hat.astype(int)
+
+        print(y_hat)
+        return y_hat
