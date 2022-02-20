@@ -72,7 +72,7 @@ class LogisticRegressionSGD(Model):
 
             y_hat[i] = 1 if y_p >= 0.5 else 0
 
-        y_hat = np.squeeze(np.asarray(y_hat))
+        
 
         y_hat = y_hat.astype(int)
 
