@@ -54,7 +54,7 @@ class LogisticRegressionSGD(Model):
             h = sigmoid(logits) 
 
             gradient = np.multiply(x_p, (y_p - h))
-
+            gradient.shape
             self.W = self.W + self.learning_rate * gradient
 
 
