@@ -53,7 +53,7 @@ class LogisticRegressionSGD(Model):
             logits = np.dot(x_p, self.W)
             h = sigmoid(logits) 
 
-            gradient = np.dot(x_p, (y_p - h))
+            gradient = np.multiply(x_p, (y_p - h))
 
             self.W = self.W + self.learning_rate * gradient
 
