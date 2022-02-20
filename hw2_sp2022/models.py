@@ -110,7 +110,7 @@ class LogisticRegressionNewton(Model):
         diff = y - sig
 
         
-        deriv = np.random.rand(d)
+        deriv = np.zeros(d)
         for i in range(d):
             deriv[i] = np.dot(diff, X[:, i])
         sig_sq = np.matmul(sig.T, (1 - sig))
