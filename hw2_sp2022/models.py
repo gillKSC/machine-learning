@@ -117,7 +117,7 @@ class LogisticRegressionNewton(Model):
         print(sig_sq.shape)
         dia = np.diag(sig_sq)
         print(dia.shape)
-        hessian = np.matmul(np.matmul(-1 * np.transpose(X), dia)), X)
+        hessian = np.matmul(np.matmul(-1 * np.transpose(X), dia), X)
         self.W -= (np.linalg.pinv(hessian).dot(deriv)) / n
 
     def predict(self, X):
