@@ -100,32 +100,29 @@ class LogisticRegressionNewton(Model):
         super().__init__()
         self.n_features = n_features
         
-        self.W = np.zeros(n_features)
+        self.W = list()
 
 
     def fit(self, X, y):
         X = X.todense()
         n, d = X.shape
 
-        J_diff_1 = np.zeros(d)
-        J_diff_2 = np.zeros((d, d))
-        temp1 = np.zeros((n, 1))
-        temp2 = np.zeros((n, 1))
-        probs = np.zeros((n, 1))
+        for i in range(d):
+            self.W.append([0.0])
+        self.W=np.matrix(self.W)
 
-        for i in range(0, d):
-            for j in range(0,n):
-                probs[j] = sigmoid(-y[j] * np.dot(X[j, :], self.W))
-                temp1[j] = probs[j]*y[j] * X[j, i]
-            J_diff_1[i] = (-1 / n) * np.sum(temp1)
-
-        for i in range(0,d):
-            for k in range(0,d):
-                for j in range(0,n):
-                    temp2[j] = probs[j] * (1 - probs[j]) * X[j, k] *X[j, i]
-                    J_diff_2[i, k] = (1 / n) * np.sum(temp2)
-
-        self.W = self.W - np.asarray(np.linalg.inv(np.mat(J_diff_2))).dot(J_diff_1)
+        R=list()
+        for x in X:
+            WT=np.array(self.W.T)
+            R.append(sigmoid_derivative(np.dot(WT[0],x)))
+        R=np.diag(R)
+        H=np.matmul(X.T,R)
+        H=np.matmul(H,X)
+        if det(H+l*np.eye(H.shape[0]))!=0:
+            gradient=np.matmul(inv(H+l*np.eye(H.shape[0]) ) ,np.matmul( X.T, np.matmul(X,W) - y ) )
+        else:
+            gradient=np.matmul(pinv(H+l*np.eye(H.shape[0]) ) ,np.matmul( X.T, np.matmul(X,W) - y ) )
+        self.W=self.W-gradient
 
     def predict(self, X):
         # TODO: Write code to make predictions
