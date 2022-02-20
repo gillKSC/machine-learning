@@ -127,9 +127,8 @@ class LogisticRegressionNewton(Model):
         print(invert.shape)
         b = np.dot(invert, a)
         c = X.shape[0]
-        print(b.shape)
-        print(c.shape)
-        self.W -= b / c
+        print(b.T.shape)
+        self.W -= b.T / c
 
     def predict(self, X):
         # TODO: Write code to make predictions
