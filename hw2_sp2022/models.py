@@ -1,7 +1,7 @@
 import numpy as np
 
 def sigmoid(x):
-    x.float()
+    x = x.astype(float)
     return 1 / (1 + np.exp(-x))
 
 class Model(object):
