@@ -41,7 +41,7 @@ class LogisticRegressionSGD(Model):
 
     def fit(self, X, y):
 
-        
+        X = X.todense()
 
         for i in range(self.n_features):
             x_p = X[i]
@@ -51,9 +51,9 @@ class LogisticRegressionSGD(Model):
             h = sigmoid(logits)
 
 
-            gradient = np.dot(x_p.T, (h - y_p))
+            gradient = np.dot(x_p.T, (y_p - h))
 
-        self.W -= self.learning_rate * gradient
+        self.W += self.learning_rate * gradient
 
     def _fix_test_feats(self, X):
         """ Fixes some feature disparities between datasets.
