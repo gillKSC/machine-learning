@@ -114,7 +114,7 @@ class LogisticRegressionNewton(Model):
         for i in range(d):
             deriv[i] = np.dot(diff, X[:, i])
         
-        hessian = np.matmul(np.matmul(-1 * np.transpose(X), np.diag(sig * (1 - sig))), X)
+        hessian = np.matmul(np.matmul(-1 * np.transpose(X), np.diag(sig * (1 - sig).T)), X)
         self.W -= (np.linalg.pinv(hessian).dot(deriv)) / n
 
     def predict(self, X):
