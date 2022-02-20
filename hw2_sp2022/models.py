@@ -109,12 +109,15 @@ class LogisticRegressionNewton(Model):
         sig = sigmoid(X.dot(self.W))
         diff = y - sig
 
-        print((np.matmul(sig.T, (1 - sig))).shape)
+        
         deriv = np.random.rand(d)
         for i in range(d):
             deriv[i] = np.dot(diff, X[:, i])
-        
-        hessian = np.matmul(np.matmul(-1 * np.transpose(X), np.diag(np.matmul(sig.T, (1 - sig)))), X)
+        sig_sq = np.matmul(sig.T, (1 - sig))
+        print(sig_sq.shape)
+        dia = np.diag(sig_sq)
+        print(dia.shape)
+        hessian = np.matmul(np.matmul(-1 * np.transpose(X), dia)), X)
         self.W -= (np.linalg.pinv(hessian).dot(deriv)) / n
 
     def predict(self, X):
