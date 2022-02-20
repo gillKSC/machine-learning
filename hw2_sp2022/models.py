@@ -44,7 +44,7 @@ class LogisticRegressionSGD(Model):
         n, d = X.shape
 
 
-        print(n)
+        print(d)
         print(self.W.shape)
         for i in range(n):
             x_p = X[i, :]
