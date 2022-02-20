@@ -1,6 +1,8 @@
 import numpy as np
 
-
+def sigmoid(x):
+    x = np.clip(x, a_min = -709, a_max = 709)
+    return 1 / (1 + np.exp(-x))
 
 class Model(object):
 
@@ -45,7 +47,7 @@ class LogisticRegressionSGD(Model):
 
         for _ in range(self.n_iters):
             linear_model = self.bias + np.dot(self.theta, X.T)
-            y_pred = self._sigmoid(linear_model)
+            y_pred = sigmoid(linear_model)
 
             dw = np.dot((y_pred - y), X) / n_samples
             db = np.sum(y_pred - y) / n_samples
@@ -55,8 +57,5 @@ class LogisticRegressionSGD(Model):
 
     def predict(self, X):
         linear_model = self.bias + np.dot(self.theta, X.T)
-        y_pred = self._sigmoid(linear_model)[0]
+        y_pred = sigmoid(linear_model)[0]
         return [1 if i > 0.5 else 0 for i in y_pred]
-
-    def _sigmoid(self, z):
-        return 1 / (1 + np.exp(-z))
