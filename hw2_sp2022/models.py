@@ -56,9 +56,6 @@ class LogisticRegressionSGD(Model):
         X = X.todense()
         n, d = X.shape
 
-
-        print(d)
-        print(self.W.shape)
         for i in range(n):
             x_p = X[i, :]
             y_p = y[i]
@@ -75,7 +72,7 @@ class LogisticRegressionSGD(Model):
     def predict(self, X):
 
         X = X.todense()
-        X = _fix_test_feats(X, n_features)
+        X = _fix_test_feats(X, self.n_features)
         n, d = X.shape
         
         
