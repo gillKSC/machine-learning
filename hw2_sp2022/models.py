@@ -1,8 +1,16 @@
 import numpy as np
 
-def sigmoid(x):
-    x = np.clip(x, a_min = -709, a_max = 709)
-    return 1 / (1 + np.exp(-x))
+def sigmoid(logits):
+    out = np.zeros((logits.shape[0], 1))
+
+        for i in range(logits.shape[0]):
+
+            if logits[i] > 0:
+                out[i] = 1/(1 + np.exp(-logits[i]))
+            else: 
+                out[i] = np.exp(logits[i])/(1 + np.exp(logits[i]))
+        
+        return out
 
 class Model(object):
 
