@@ -70,7 +70,8 @@ class LogisticRegressionSGD(Model):
             logits = np.dot(x_p, self.W)
             y_p = sigmoid(logits)
 
-            y_hat[i] = 1 if y_p >= 0.5
+            if y_p >= 0.5:
+                y_hat[i] = 1 
 
         
 
