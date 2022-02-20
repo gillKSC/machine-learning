@@ -46,16 +46,18 @@ class LogisticRegressionSGD(Model):
         X = X.todense()
 
         for i in range(n):
-            x_p = X[i]
+            x_p = X[i, :]
             y_p = y[i]
-
+            
+            
             logits = np.dot(x_p, self.W)
             h = sigmoid(logits) 
 
+            for j in range(self,n_features):
+                
+                gradient = np.dot(x_p[j], (y_p - h))
 
-            gradient = np.dot(x_p.T, (h - y_p))
-
-        self.W -= self.learning_rate * gradient
+                self.W[j] -= self.learning_rate * gradient
 
     
     def _fix_test_feats(self, X):
