@@ -106,23 +106,23 @@ class LogisticRegressionNewton(Model):
         X = X.todense()
         n, d = X.shape
 
-        J_diff_1 = np.zeros(n)
-        J_diff_2 = np.zeros((n, n))
-        temp1 = np.zeros((d, 1))
-        temp2 = np.zeros((d, 1))
-        probs = np.zeros((d, 1))
+        J_diff_1 = np.zeros(d)
+        J_diff_2 = np.zeros((d, d))
+        temp1 = np.zeros((n, 1))
+        temp2 = np.zeros((n, 1))
+        probs = np.zeros((n, 1))
 
-        for i in range(0, n):
-            for j in range(0,d):
+        for i in range(0, d):
+            for j in range(0,n):
                 probs[j] = sigmoid(-y[j] * np.dot(X[j, :], self.W))
                 temp1[j] = probs[j]*y[j] * X[j, i]
-            J_diff_1[i] = (-1 / d) * np.sum(temp1)
+            J_diff_1[i] = (-1 / n) * np.sum(temp1)
 
-        for i in range(0,n):
-            for k in range(0,n):
-                for j in range(0,d):
+        for i in range(0,d):
+            for k in range(0,d):
+                for j in range(0,n):
                     temp2[j] = probs[j] * (1 - probs[j]) * X[j, k] *X[j, i]
-                    J_diff_2[i, k] = (1 / d) * np.sum(temp2)
+                    J_diff_2[i, k] = (1 / n) * np.sum(temp2)
 
         self.W = self.W - np.asarray(np.linalg.inv(np.mat(J_diff_2))).dot(J_diff_1)
 
