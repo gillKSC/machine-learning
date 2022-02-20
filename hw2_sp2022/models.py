@@ -72,7 +72,9 @@ class LogisticRegressionSGD(Model):
     def predict(self, X):
 
         X = X.todense()
+        print(X.shape)
         X = _fix_test_feats(X, self.n_features)
+        print(X.shape)
         n, d = X.shape
         
         
