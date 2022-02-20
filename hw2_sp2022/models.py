@@ -55,7 +55,7 @@ class LogisticRegressionSGD(Model):
 
             for j in range(self.n_features):
                 
-                gradient = np.dot(x_p[,j], (y_p - h))
+                gradient = np.dot(x_p[:,j], (y_p - h))
 
                 self.W[j] -= self.learning_rate * gradient
 
