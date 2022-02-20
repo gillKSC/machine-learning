@@ -111,7 +111,7 @@ class LogisticRegressionNewton(Model):
 
         
         deriv = []
-        print(deriv.shape)
+        
         for i in range(d):
             deriv.append(np.dot(diff, X[:, i]))
         sig_sq = np.matmul(sig.T, (1 - sig))
