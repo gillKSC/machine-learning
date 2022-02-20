@@ -76,12 +76,15 @@ class LogisticRegressionSGD(Model):
     def predict(self, X):
 
         X = self._fix_test_feats(X)
+        
+        n, d = X.shape
         X = X.todense()
-        logits = np.dot(X, self.W)
-        y_hat = sigmoid(logits)
+        for i in range(n):
+            x_p = X[i, :]
+            logits = np.dot(x_p, self.W)
+            y_p = sigmoid(logits)
 
-        for idx in range(len(y_hat)):
-            y_hat[idx] = 1 if y_hat[idx] >= 0.5 else 0
+            y_hat[i] = 1 if y_p >= 0.5 else 0
 
         y_hat = np.squeeze(np.asarray(y_hat))
 
