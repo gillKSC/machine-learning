@@ -73,7 +73,7 @@ class LogisticRegressionSGD(Model):
     
     def predict(self, X):
 
-        
+        X = self._fix_test_feats(X)
         X = X.todense()
         logits = np.dot(X, self.W)
         y_hat = sigmoid(logits)
