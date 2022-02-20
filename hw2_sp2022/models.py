@@ -64,7 +64,7 @@ class LogisticRegressionSGD(Model):
         n, d = X.shape
 
         
-        y_hat = np.zeros(n)
+        y_hat = []
         for i in range(n):
             x_p = X[i, :]
             logits = np.dot(x_p, self.W)
