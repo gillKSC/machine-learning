@@ -55,22 +55,11 @@ class LogisticRegressionSGD(Model):
 
         self.W += self.learning_rate * gradient
 
-    def _fix_test_feats(self, X):
-        """ Fixes some feature disparities between datasets.
-        Call this before you perform inference to make sure your X features
-        match your weights.
-        """
-        num_examples, num_input_features = X.shape
-        if num_input_features < self.n_features:
-            X = X.copy()
-            X._shape = (num_examples, self.n_features)
-        if num_input_features > self.n_features:
-            X = X[:, :self.n_features]
-        return X
+    
 
     def predict(self, X):
 
-        X = self._fix_test_feats(X)
+        
         X = X.todense()
         logits = np.dot(X, self.W)
         y_hat = sigmoid(logits)
