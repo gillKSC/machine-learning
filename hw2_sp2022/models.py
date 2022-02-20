@@ -99,31 +99,26 @@ class LogisticRegressionNewton(Model):
     def __init__(self, n_features):
         super().__init__()
         self.n_features = n_features
+        self.W = np.zeros((n_features, 1))
 
 
     def fit(self, X, y):
-        W=list()
         X = X.todense()
         n, d = X.shape
 
-        for i in range(d):
-            self.W.append([0.0])
-        W=np.matrix(W)
 
         R=list()
         for x in X:
-            WT=np.array(W.T)
-            R.append(sigmoid(np.dot(WT[0],x)))
+            WT=np.array(self.W.T)
+            R.append(sigmoid(np.dot(WT,x)))
         R=np.diag(R)
         H=np.matmul(X.T,R)
         H=np.matmul(H,X)
         if det(H+l*np.eye(H.shape[0]))!=0:
-            gradient=np.matmul(inv(H+l*np.eye(H.shape[0]) ) ,np.matmul( X.T, np.matmul(X,W) - y ) )
+            gradient=np.matmul(inv(H+l*np.eye(H.shape[0]) ) ,np.matmul( X.T, np.matmul(X,self.W) - y ) )
         else:
-            gradient=np.matmul(pinv(H+l*np.eye(H.shape[0]) ) ,np.matmul( X.T, np.matmul(X,W) - y ) )
-        W=W-gradient
-        
-        return W
+            gradient=np.matmul(pinv(H+l*np.eye(H.shape[0]) ) ,np.matmul( X.T, np.matmul(X,self.W) - y ) )
+        self.W=self.W-gradient
 
     def predict(self, X):
         # TODO: Write code to make predictions
