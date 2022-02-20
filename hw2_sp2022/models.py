@@ -47,7 +47,7 @@ class LogisticRegressionSGD(Model):
             x_p = X[i]
             y_p = y[i]
 
-            logits = np.dot(x_p, self.W)
+            logits = np.dot(self.W, x_p)
             h = sigmoid(logits)
 
 
@@ -56,12 +56,24 @@ class LogisticRegressionSGD(Model):
         self.W += self.learning_rate * gradient
 
     
-
+    def _fix_test_feats(self, X):
+        """ Fixes some feature disparities between datasets.
+        Call this before you perform inference to make sure your X features
+        match your weights.
+        """
+        num_examples, num_input_features = X.shape
+        if num_input_features < self.n_features:
+            X = X.copy()
+            X._shape = (num_examples, self.n_features)
+        if num_input_features > self.n_features:
+            X = X[:, :self.n_features]
+        return X
+    
     def predict(self, X):
 
         
         X = X.todense()
-        logits = np.dot(X, self.W)
+        logits = np.dot(self.W, X)
         y_hat = sigmoid(logits)
 
         for idx in range(len(y_hat)):
