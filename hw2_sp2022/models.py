@@ -99,7 +99,7 @@ class LogisticRegressionNewton(Model):
     def __init__(self, n_features):
         super().__init__()
         self.n_features = n_features
-        self.W = np.zeros(n_features)
+        self.W = np.zeros((n_features, 1))
 
 
     def fit(self, X, y):
@@ -109,14 +109,14 @@ class LogisticRegressionNewton(Model):
 
         R=list()
         for x in X:
-            R.append(sigmoid(np.dot(self.W.T,x)))
+            R.append(sigmoid(np.dot(self.W,x)))
         R=np.diag(R)
         H=np.matmul(X.T,R)
         H=np.matmul(H,X)
         if det(H+l*np.eye(H.shape[0]))!=0:
-            gradient=np.matmul(inv(H+l*np.eye(H.shape[0]) ) ,np.matmul( X.T, np.matmul(X,self.W) - y ) )
+            gradient=np.matmul(inv(H+l*np.eye(H.shape[0]) ) ,np.matmul( X.T, np.matmul(X,self.W.T) - y ) )
         else:
-            gradient=np.matmul(pinv(H+l*np.eye(H.shape[0]) ) ,np.matmul( X.T, np.matmul(X,self.W) - y ) )
+            gradient=np.matmul(pinv(H+l*np.eye(H.shape[0]) ) ,np.matmul( X.T, np.matmul(X,self.W.T) - y ) )
         self.W=self.W-gradient
 
     def predict(self, X):
