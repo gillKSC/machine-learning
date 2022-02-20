@@ -4,6 +4,19 @@ def sigmoid(x):
     x = np.clip(x, a_min = -709, a_max = 709)
     return 1 / (1 + np.exp(-x))
 
+def _fix_test_feats(X, n_features):
+        """ Fixes some feature disparities between datasets.
+        Call this before you perform inference to make sure your X features
+        match your weights.
+        """
+        num_examples, num_input_features = X.shape
+        if num_input_features < n_features:
+            X = X.copy()
+            X._shape = (num_examples, n_features)
+        if num_input_features > n_features:
+            X = X[:, :n_features]
+        return X
+    
 class Model(object):
 
     def __init__(self):
@@ -62,8 +75,9 @@ class LogisticRegressionSGD(Model):
     def predict(self, X):
 
         X = X.todense()
+        X = _fix_test_feats(X, n_features)
         n, d = X.shape
-
+        
         
         y_hat = np.zeros(n)
         for i in range(n):
