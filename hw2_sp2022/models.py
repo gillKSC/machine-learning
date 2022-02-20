@@ -109,7 +109,7 @@ class LogisticRegressionNewton(Model):
         sig = sigmoid(X.dot(self.W))
         diff = y - sig
 
-        print((-1 * np.transpose(X)).shape)
+        print(np.matmul(sig, (1 - sig).T)).shape)
         deriv = np.random.rand(d)
         for i in range(d):
             deriv[i] = np.dot(diff, X[:, i])
