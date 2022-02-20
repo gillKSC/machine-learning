@@ -4,7 +4,7 @@ def sigmoid(x):
     x = np.clip(x, a_min = -709, a_max = 709)
     return 1 / (1 + np.exp(-x))
 
-def _fix_test_feats(X, n_features):
+def fix_test_feats(X, n_features):
         """ Fixes some feature disparities between datasets.
         Call this before you perform inference to make sure your X features
         match your weights.
@@ -74,7 +74,7 @@ class LogisticRegressionSGD(Model):
 
         X = X.todense()
         print(X.shape)
-        X = _fix_test_feats(X, self.n_features)
+        X = fix_test_feats(X, self.n_features)
         print(X.shape)
         n, d = X.shape
         
@@ -93,3 +93,39 @@ class LogisticRegressionSGD(Model):
         y_hat = y_hat.astype(int)
 
         return y_hat
+    
+class LogisticRegressionNewton(Model):
+    
+    def __init__(self, n_features):
+        super().__init__()
+        self.n_features = n_features
+        self.W = np.zeros((n_features, 1))
+
+
+    def fit(self, X, y):
+        X = X.todense()
+        n, d = X.shape
+
+        J_diff_1 = np.zeros(n)
+        J_diff_2 = np.zeros((n, n))
+        temp1 = np.zeros((d, 1))
+        temp2 = np.zeros((d, 1))
+        probs = np.zeros((d, 1))
+
+        for i in range(0, n):
+            for j in range(0,d):
+                probs[j] = sigmoid(-y[j] * np.dot(X[j, :], self.W))
+                temp1[j] = probs[j]*y[j] * X[j, i]
+            J_diff_1[i] = (-1 / d) * np.sum(temp1)
+
+        for i in range(0,n):
+            for k in range(0,n):
+                for j in range(0,d):
+                    temp2[j] = probs[j] * (1 - probs[j]) * X[j, k] *X[j, i]
+                    J_diff_2[i, k] = (1 / d) * np.sum(temp2)
+
+        self.W = self.W - np.asarray(np.linalg.inv(np.mat(J_diff_2))).dot(J_diff_1)
+
+    def predict(self, X):
+        # TODO: Write code to make predictions
+        pass
