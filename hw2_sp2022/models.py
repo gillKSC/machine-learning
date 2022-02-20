@@ -1,14 +1,8 @@
 import numpy as np
 
 def sigmoid(x):
-    out = np.zeros((x.shape[0], 1))
-
-    for i in range(x.shape[0]):
-        if x[i] > 0:
-            out[i] = 1/(1 + np.exp(-x[i]))
-        else: 
-            out[i] = np.exp(x[i])/(1 + np.exp(x[i]))
-    return out
+    x = np.clip(x, a_min = -709, a_max = 709)
+    return 1 / (1 + np.exp(-x))
 
 class Model(object):
 
