@@ -99,7 +99,7 @@ class LogisticRegressionNewton(Model):
     def __init__(self, n_features):
         super().__init__()
         self.n_features = n_features
-        self.W = np.zeros((n_features, 1))
+        self.W = np.zeros(n_features)
 
 
     def fit(self, X, y):
@@ -107,8 +107,8 @@ class LogisticRegressionNewton(Model):
         n, d = X.shape
 
         sig = sigmoid(X.dot(self.W))
-        diff = np.transpose(y) - sig
-        print(y.T.shape)
+        diff = y - sig
+        print(y.shape)
         print(sig.shape)
         deriv = np.random.rand(d)
         for i in range(d):
