@@ -40,7 +40,7 @@ class LogisticRegressionSGD(Model):
         self.W = np.zeros((n_features, 1))
 
     def fit(self, X, y):
-        X = todense(X)
+        X = np.todense(X)
         n, d = X.shape
 
 
@@ -63,7 +63,7 @@ class LogisticRegressionSGD(Model):
     
     def predict(self, X):
 
-        X = todense(X)
+        X = np.todense(X)
         n, d = X.shape
 
         
