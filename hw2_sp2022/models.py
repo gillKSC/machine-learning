@@ -51,7 +51,7 @@ class LogisticRegressionSGD(Model):
         super().__init__()
         self.n_features = n_features
         self.learning_rate = learning_rate
-        self.W = np.zeros(n_features + 1)
+        self.W = np.zeros((n_features, 1))
 
     def fit(self, X, y):
         X = X.todense()
@@ -99,7 +99,8 @@ class LogisticRegressionNewton(Model):
     def __init__(self, n_features):
         super().__init__()
         self.n_features = n_features
-        self.W = np.zeros((n_features, 1))
+        
+        self.W = np.zeros(n_features + 1)
 
 
     def fit(self, X, y):
