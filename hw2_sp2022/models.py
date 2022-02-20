@@ -40,9 +40,8 @@ class LogisticRegressionSGD(Model):
         self.W = np.zeros((n_features, 1))
 
     def fit(self, X, y):
-        n, d = X.shape
 
-        X = X.todense()
+        
 
         for i in range(self.n_features):
             x_p = X[i]
