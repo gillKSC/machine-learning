@@ -112,7 +112,7 @@ class LogisticRegressionNewton(Model):
         print(diff.shape)
         deriv = np.random.rand(d)
         for i in range(d):
-            deriv[i] = np.dot(X[:, i], diff)
+            deriv[i] = np.dot(diff, X[:, i])
         
         hessian = np.matmul(np.matmul(-1 * np.transpose(X), np.diag(sig * (1 - sig))), X)
         self.W -= (np.linalg.pinv(hessian).dot(deriv)) / n
