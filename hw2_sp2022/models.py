@@ -109,8 +109,7 @@ class LogisticRegressionNewton(Model):
 
         R=list()
         for x in X:
-            WT=np.array(self.W.T)
-            R.append(sigmoid(np.dot(WT,x)))
+            R.append(sigmoid(np.dot(self.W.T,x)))
         R=np.diag(R)
         H=np.matmul(X.T,R)
         H=np.matmul(H,X)
