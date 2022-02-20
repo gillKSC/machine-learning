@@ -43,7 +43,7 @@ class LogisticRegressionSGD(Model):
         
         n, d = X.shape
 
-        X = X.todense()
+
 
         for i in range(n):
             x_p = X[i, :]
@@ -65,7 +65,7 @@ class LogisticRegressionSGD(Model):
 
         
         n, d = X.shape
-        X = X.todense()
+
         
         y_hat = np.zeros(n)
         for i in range(n):
