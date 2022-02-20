@@ -1,13 +1,13 @@
 import numpy as np
 
 def sigmoid(x):
-    out = np.zeros((logits.shape[0], 1))
+    out = np.zeros((x.shape[0], 1))
 
-    for i in range(logits.shape[0]):
-        if logits[i] > 0:
-            out[i] = 1/(1 + np.exp(-logits[i]))
+    for i in range(x.shape[0]):
+        if x[i] > 0:
+            out[i] = 1/(1 + np.exp(-x[i]))
         else: 
-            out[i] = np.exp(logits[i])/(1 + np.exp(logits[i]))
+            out[i] = np.exp(x[i])/(1 + np.exp(x[i]))
     return out
 
 class Model(object):
