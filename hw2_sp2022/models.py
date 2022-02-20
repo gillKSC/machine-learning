@@ -99,7 +99,7 @@ class LogisticRegressionNewton(Model):
     def __init__(self, n_features):
         super().__init__()
         self.n_features = n_features
-        self.W = np.zeros((n_features, 1))
+        self.W = np.zeros(n_features)
 
 
     def fit(self, X, y):
