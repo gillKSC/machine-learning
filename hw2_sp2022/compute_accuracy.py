@@ -31,6 +31,8 @@ if len(predicted_labels) != len(true_labels):
     print(len(predicted_labels))
     sys.exit()
 
+print(len(true_labels))
+print(len(predicted_labels))
 true_labels = np.array(true_labels)
 predicted_labels = np.array(predicted_labels)
 correct_mask = true_labels == predicted_labels
