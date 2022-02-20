@@ -53,7 +53,7 @@ class LogisticRegressionSGD(Model):
             logits = np.dot(x_p, self.W)
             h = sigmoid(logits) 
 
-            for j in range(self,n_features):
+            for j in range(self.n_features):
                 
                 gradient = np.dot(x_p[j], (y_p - h))
 
