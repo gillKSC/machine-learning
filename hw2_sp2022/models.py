@@ -63,10 +63,11 @@ class LogisticRegressionSGD(Model):
         X = X.todense()
         n, d = X.shape
 
-        
+        print(d)
+        print(self.W.shape)
         y_hat = np.zeros(n)
         for i in range(n):
-            x_p = X[i, :]
+            x_p = X[i]
             logits = np.dot(x_p, self.W)
             y_p = sigmoid(logits)
 
