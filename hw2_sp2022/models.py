@@ -11,8 +11,9 @@ def _fix_test_feats(X, n_features):
         """
         num_examples, num_input_features = X.shape
         if num_input_features < n_features:
-            X = X.copy()
-            X._shape = (num_examples, n_features)
+            zero = np.zeros((num_examples, 1))
+            for i in range(n_features - num_input_features):
+                X = np.column_stack((X, zero))
         if num_input_features > n_features:
             X = X[:, :n_features]
         return X
