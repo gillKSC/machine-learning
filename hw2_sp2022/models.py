@@ -64,13 +64,13 @@ class LogisticRegressionSGD(Model):
         n, d = X.shape
 
         
-        y_hat = np.zeros((n, 1))
+        y_hat = np.zeros(n)
         for i in range(n):
             x_p = X[i, :]
             logits = np.dot(x_p, self.W)
             y_p = sigmoid(logits)
 
-            y_hat[:,i] = 1 if y_p >= 0.5 else 0
+            y_hat[i] = 1 if y_p >= 0.5
 
         
 
