@@ -107,10 +107,14 @@ class LogisticRegressionNewton(Model):
         n, d = X.shape
 
 
-        R=np.zeros(n)
+        R=list()
         for i in range(n):
             x_p = X[i, :]
-            R[i] = (sigmoid(np.dot(self.W,x_p)))
+            logits = np.dot(x_p, self.W)
+            h = sigmoid(logits)
+            
+            p = h*(1-h)
+            R.append(p)
         R=np.diag(R)
         H=np.matmul(X.T,R)
         H=np.matmul(H,X)
