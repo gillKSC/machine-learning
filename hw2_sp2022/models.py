@@ -57,7 +57,7 @@ class LogisticRegressionSGD(Model):
                 
                 gradient = np.dot(x_p[:,j], (y_p - h))
 
-                self.W[j] -= self.learning_rate * gradient
+                self.W[j] = self.W[j] + self.learning_rate * gradient
 
     
     def _fix_test_feats(self, X):
