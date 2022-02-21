@@ -130,7 +130,16 @@ class LogisticRegressionNewton(Model):
         linear_model = np.dot(X, self.beta)
         y_predicted = self._sigmoid(linear_model)
         y_predicted_cls = [1 if i > 0.5 else 0 for i in y_predicted]
-        return np.array(y_predicted_cls)
+        y_hat = np.zeros(n)
+        for i in range(n):
+            if y_p >= 0.5:
+                y_hat[i] = 1 
+
+        
+
+        y_hat = y_hat.astype(int)
+
+        return y_hat
 
     def _sigmoid(self, x):
         x = np.clip(x, a_min = -709, a_max = 709)
