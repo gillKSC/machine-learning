@@ -148,7 +148,7 @@ class LogisticRegressionNewton(Model):
         y_hat = np.zeros(n)
         for i in range(n):
             x_p = X[i]
-            logits = np.dot(x_p, self.beta[:, 1])
+            logits = np.dot(x_p, self.beta)
             y_p = sigmoid(logits)
 
             if y_p >= 0.5:
