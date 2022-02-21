@@ -131,8 +131,8 @@ class LogisticRegressionNewton(Model):
         secDerivLogL = np.identity(n_features+1)
         for i in range(n_features+1):
             for j in range(n_features+1):
-                a = np.dot(h, (1-h).T)
-                b = np.dot(X[:,i], X[:,j].T)
+                a = np.dot(h.T, (1-h))
+                b = np.dot(X[:,i].T, X[:,j])
                 print(a.shape)
                 print(b.shape)
                 secDerivLogL[i][j] -= b* a
