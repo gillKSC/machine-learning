@@ -106,30 +106,18 @@ class LogisticRegressionNewton(Model):
         X = X.todense()
         n, d = X.shape
 
-        sig = sigmoid(X.dot(self.W))
-        diff = y - sig
+        z = Y * (X @ self.W.T)
+        gz = sigmoid(z)
+        cost_func_deriv = np.mean((gz - 1) * Y * X.T, axis=1)
 
-        
-        deriv = []
-        
-        for i in range(d):
-            deriv.append(np.dot(diff, X[:, i]))
-        sig_sq = np.matmul(sig.T, (1 - sig))
-        print(sig_sq.shape)
-        
-        prod = np.matmul(-1 * np.transpose(X), sig_sq)
-        print(prod.shape)
-        hessian = np.matmul(prod, X)
-        a = np.asarray(deriv)
-        a = a.reshape(d,1)
-        invert = np.linalg.pinv(hessian)
-        print(a.shape)
-        print(invert.shape)
-        b = np.dot(invert, a)
-        c = b.T / n
-        print(c.shape)
-        print(self.W.shape)
-        self.W = self.W - c
+        hessian = np.zeros(n,n)
+        for i in range(n):
+            for j in range(n):
+                hessia_ij = np.mean(gz * (1 - gz) * X[:,i] * X[:,j])
+                hessian[i,j] = hessia_ij
+
+        delta = np.linalg.pinv(hessian).T @ cost_func_deriv
+        self.W = self.W - delta
 
     def predict(self, X):
         # TODO: Write code to make predictions
