@@ -104,7 +104,7 @@ class LogisticRegressionNewton(Model):
         n_samples, n_features = X.shape
 
         # or: X = np.hstack((np.ones((y.n_samples, 1)), X))
-        X = np.concatenate((np.ones((n_samples, 1)), X.to_numpy()), axis=1)
+        X = np.hstack((np.ones((y.n_samples, 1)), X))
 
         # init parameters
         self.beta = np.zeros(n_features + 1)
