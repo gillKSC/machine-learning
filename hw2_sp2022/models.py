@@ -116,6 +116,7 @@ class LogisticRegressionNewton(Model):
         diag = np.multiply(h.T, (1 - h)) * np.identity(n_samples)
         print(diag.shape)
         hessian = (1 / n_samples) * np.dot(np.dot(X.T, diag), X)
+        print(hessian.shape)
         self.beta = self.beta - np.dot(np.linalg.inv(hessian), gradient)
 
     def predict(self, X):
