@@ -4,6 +4,9 @@ def sigmoid(x):
     x = np.clip(x, a_min = -709, a_max = 709)
     return 1 / (1 + np.exp(-x))
 
+def column(matrix, i):
+    return [row[i] for row in matrix]
+
 def fix_test_feats(X, n_features):
         """ Fixes some feature disparities between datasets.
         Call this before you perform inference to make sure your X features
@@ -126,7 +129,7 @@ class LogisticRegressionNewton(Model):
         #print(self.beta.shape)
 
     def predict(self, X):
-        print(self.beta)
+        self.beta = column(self.beta, 0)
         X = X.todense()
         X = fix_test_feats(X, self.n_features+1)
         linear_model = np.dot(X, self.beta)
