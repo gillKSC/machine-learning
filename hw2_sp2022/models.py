@@ -108,7 +108,7 @@ class LogisticRegressionNewton(Model):
         # init parameters
         self.beta = np.zeros(n_features+1)
 
-        X = np.concatenate((np.ones((n_samples, 1)), X, axis=1)
+        X = np.column_stack((X, one))
         h = self._sigmoid(np.dot(X, self.beta))
 
         gradient = np.dot(X.T, (h - y).T) / n_samples
