@@ -118,15 +118,21 @@ class LogisticRegressionNewton(Model):
         #print(X.T.shape)
         gradient = np.dot(X.T, (y - h))
         #print(gradient.shape)
-        diag = np.multiply(h.T, (1 - h)) * np.identity(n_samples)
+        #diag = np.multiply(h.T, (1 - h)) * np.identity(n_samples)
         #print(diag.shape)
-        hessian = (1 / n_samples) * np.dot(np.dot(X.T, diag), X)
+        #hessian = (1 / n_samples) * np.dot(np.dot(X.T, diag), X)
         #print(hessian.shape)
-        subtr = np.dot(np.linalg.pinv(hessian), gradient)
+        #subtr = np.dot(np.linalg.pinv(hessian), gradient)
         #print(subtr.shape)
-        print(self.beta)
-        self.beta = self.beta - subtr
+
+        #self.beta = self.beta - subtr
         #print(self.beta.shape)
+        
+        secDerivLogL = np.identity(n_features+1)
+        for i in range(0,p):
+            for j in range(0,p):
+                secDerivLogL[i][j] -= np.dot(np.dot(np.transpose(X[:,i]), np.transpose(X[:,j])), np.dot(h, 1-h))
+        self.beta -= np.dot(np.linalg.pinv(secDerivLogL), gradient)
 
     def predict(self, X):
 
