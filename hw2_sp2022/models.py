@@ -98,7 +98,7 @@ class LogisticRegressionNewton(Model):
     
     def __init__(self, n_features):
         self.n_features = n_features
-        self.beta = None
+        self.beta = np.zeros((n_features, 1))
 
     def fit(self, X, y):
         X = X.todense()
@@ -118,6 +118,7 @@ class LogisticRegressionNewton(Model):
         hessian = (1 / n_samples) * np.dot(np.dot(X.T, diag), X)
         print(hessian.shape)
         self.beta = self.beta - np.dot(np.linalg.pinv(hessian), gradient)
+        print(self.beta.shape)
 
     def predict(self, X):
         X = X.todense()
