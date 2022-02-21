@@ -105,7 +105,7 @@ class LogisticRegressionNewton(Model):
     def fit(self, X, y):
         X = X.todense()
         n, d = X.shape
-        y = y.T
+        y = y.reshape(n, 1)
 
         z = y * (X @ self.W.T)
         gz = sigmoid(z)
