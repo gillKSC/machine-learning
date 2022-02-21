@@ -97,31 +97,33 @@ class LogisticRegressionSGD(Model):
 class LogisticRegressionNewton(Model):
     
     def __init__(self, n_features):
-        super().__init__()
         self.n_features = n_features
-        self.W = np.zeros(n_features)
-
+        self.beta = None
 
     def fit(self, X, y):
-        X = X.todense()
-        n, d = X.shape
-        y = y.reshape(1, n)
+        n_samples, n_features = X.shape
 
-        z = X @ self.W.T
-        gz = sigmoid(z)
-        print(gz.shape)
-        cost_func_deriv = gz*(1 - gz)
-        print(cost_func_deriv.shape)
+        # or: X = np.hstack((np.ones((y.n_samples, 1)), X))
+        X = np.concatenate((np.ones((n_samples, 1)), X.to_numpy()), axis=1)
 
-        hessian = np.zeros(n,n)
-        for i in range(n):
-            for j in range(n):
-                hessia_ij = np.mean(gz * (1 - gz) * X[:,i] * X[:,j])
-                hessian[i,j] = hessia_ij
+        # init parameters
+        self.beta = np.zeros(n_features + 1)
 
-        delta = np.linalg.pinv(hessian).T @ cost_func_deriv
-        self.W = self.W - delta
+        # Newton Raphson Method
+        for _ in range(self.n_iters):
+            h = self._sigmoid(np.dot(X, self.beta))
+            gradient = np.dot(X.T, (h - y)) / y.size
+            diag = np.multiply(h, (1 - h)) * np.identity(n_samples)
+            hessian = (1 / n_samples) * np.dot(np.dot(X.T, diag), X)
+            self.beta = self.beta - np.dot(np.linalg.inv(hessian), gradient)
 
     def predict(self, X):
-        # TODO: Write code to make predictions
-        pass
+        X = np.concatenate((np.ones((X.shape[0], 1)), X.to_numpy()), axis=1)
+
+        linear_model = np.dot(X, self.beta)
+        y_predicted = self._sigmoid(linear_model)
+        y_predicted_cls = [1 if i > 0.5 else 0 for i in y_predicted]
+        return np.array(y_predicted_cls)
+
+    def _sigmoid(self, x):
+        return 1 / (1 + np.exp(-x))
