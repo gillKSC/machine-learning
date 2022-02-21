@@ -107,10 +107,11 @@ class LogisticRegressionNewton(Model):
         n, d = X.shape
         y = y.reshape(1, n)
 
-        z = y * (X @ self.W.T)
+        z = X @ self.W.T)
         gz = sigmoid(z)
         print(gz.shape)
-        cost_func_deriv = np.mean((gz - 1) * y * X.T, axis=1)
+        cost_func_deriv = gz*(1 - gz)
+        print(cost_func_deriv.shape)
 
         hessian = np.zeros(n,n)
         for i in range(n):
