@@ -131,7 +131,7 @@ class LogisticRegressionNewton(Model):
     def predict(self, X):
 
         X = X.todense()
-        X = fix_test_feats(X, self.n_features)
+        X = fix_test_feats(X, self.n_features+1)
         n, d = X.shape
 
         y_hat = np.zeros(n)
