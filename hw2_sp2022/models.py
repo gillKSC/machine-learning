@@ -109,9 +109,9 @@ class LogisticRegressionNewton(Model):
 
         
         # init parameters
-        self.beta = np.zeros((n_features+1,1))
-        one = np.ones((n_samples, 1))
-        X = np.column_stack((X, one))
+        self.beta = np.zeros((n_features,1))
+        #one = np.ones((n_samples, 1))
+        #X = np.column_stack((X, one))
         h = sigmoid(np.dot(X, self.beta))
         y = y.reshape(n_samples,1)
         print(y.shape)
@@ -142,7 +142,7 @@ class LogisticRegressionNewton(Model):
     def predict(self, X):
 
         X = X.todense()
-        X = fix_test_feats(X, self.n_features+1)
+        X = fix_test_feats(X, self.n_features)
         n, d = X.shape
 
         y_hat = np.zeros(n)
