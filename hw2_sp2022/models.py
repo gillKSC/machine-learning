@@ -133,9 +133,10 @@ class LogisticRegressionNewton(Model):
             for j in range(n_features+1):
                 a = np.dot(h.T, (1-h))
                 b = np.dot(X[:,i].T, X[:,j])
-                print(a.shape)
-                print(b.shape)
+                
                 secDerivLogL[i][j] -= b* a
+        print(secDerivLogL.shape)
+        print(gradient.shape)
         self.beta -= np.dot(np.linalg.pinv(secDerivLogL), gradient)
 
     def predict(self, X):
