@@ -129,7 +129,10 @@ class LogisticRegressionNewton(Model):
         X = fix_test_feats(X, self.n_features+1)
         linear_model = np.dot(X, self.beta)
         y_predicted = self._sigmoid(linear_model)
+        
+        n, d = X.shape
         y_hat = np.zeros(n)
+        
         for i in range(n):
             if y_p >= 0.5:
                 y_hat[i] = 1 
