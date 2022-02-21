@@ -126,6 +126,7 @@ class LogisticRegressionNewton(Model):
         #print(self.beta.shape)
 
     def predict(self, X):
+        print(self.beta.shape)
         X = X.todense()
         X = fix_test_feats(X, self.n_features+1)
         linear_model = np.dot(X, self.beta)
