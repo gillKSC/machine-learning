@@ -134,6 +134,7 @@ class LogisticRegressionNewton(Model):
         y_hat = np.zeros(n)
         
         for i in range(n):
+            y_p = y_predicted[i]
             if y_p >= 0.5:
                 y_hat[i] = 1 
 
