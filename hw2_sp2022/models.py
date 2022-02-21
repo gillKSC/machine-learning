@@ -98,7 +98,7 @@ class LogisticRegressionNewton(Model):
     
     def __init__(self, n_features):
         self.n_features = n_features
-        self.beta = none
+        self.beta = None
 
     def fit(self, X, y):
         X = X.todense()
