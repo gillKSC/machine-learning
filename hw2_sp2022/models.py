@@ -121,12 +121,12 @@ class LogisticRegressionNewton(Model):
         #print(hessian.shape)
         subtr = np.dot(np.linalg.pinv(hessian), gradient)
         #print(subtr.shape)
-        print(self.beta.shape)
+        print(self.beta)
         self.beta = self.beta - subtr
         #print(self.beta.shape)
 
     def predict(self, X):
-        print(self.beta.shape)
+        print(self.beta)
         X = X.todense()
         X = fix_test_feats(X, self.n_features+1)
         linear_model = np.dot(X, self.beta)
