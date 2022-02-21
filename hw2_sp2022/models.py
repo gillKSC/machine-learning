@@ -135,7 +135,7 @@ class LogisticRegressionNewton(Model):
                 b = np.dot(X[:,i], X[:,j].T)
                 print(a.shape)
                 print(b.shape)
-                secDerivLogL[i][j] -= np.dot(b, a)
+                secDerivLogL[i][j] -= b* a
         self.beta -= np.dot(np.linalg.pinv(secDerivLogL), gradient)
 
     def predict(self, X):
