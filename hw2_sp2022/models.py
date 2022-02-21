@@ -112,7 +112,7 @@ class LogisticRegressionNewton(Model):
         self.beta = np.zeros(n_features+1)
         one = np.ones((n_samples, 1))
         X = np.column_stack((X, one))
-        h = self._sigmoid(np.dot(X, self.beta))
+        h = sigmoid(np.dot(X, self.beta))
         
         #print(h.shape)
         #print(X.T.shape)
@@ -129,17 +129,17 @@ class LogisticRegressionNewton(Model):
         #print(self.beta.shape)
 
     def predict(self, X):
-        
+
         X = X.todense()
-        X = fix_test_feats(X, self.n_features+1)
-        linear_model = np.dot(X, self.beta[:, 1])
-        y_predicted = self._sigmoid(linear_model)
-        
+        X = fix_test_feats(X, self.n_features)
         n, d = X.shape
+
         y_hat = np.zeros(n)
-        
         for i in range(n):
-            y_p = y_predicted[i]
+            x_p = X[i]
+            logits = np.dot(x_p, self.beta[:, 1])
+            y_p = sigmoid(logits)
+
             if y_p >= 0.5:
                 y_hat[i] = 1 
 
@@ -148,7 +148,3 @@ class LogisticRegressionNewton(Model):
         y_hat = y_hat.astype(int)
 
         return y_hat
-
-    def _sigmoid(self, x):
-        x = np.clip(x, a_min = -709, a_max = 709)
-        return 1 / (1 + np.exp(-x))
