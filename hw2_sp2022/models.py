@@ -108,16 +108,15 @@ class LogisticRegressionNewton(Model):
         # init parameters
         self.beta = np.zeros(n_features + 1)
 
-        # Newton Raphson Method
-        for _ in range(self.n_iters):
-            h = self._sigmoid(np.dot(X, self.beta))
-            gradient = np.dot(X.T, (h - y)) / y.size
-            diag = np.multiply(h, (1 - h)) * np.identity(n_samples)
-            hessian = (1 / n_samples) * np.dot(np.dot(X.T, diag), X)
-            self.beta = self.beta - np.dot(np.linalg.inv(hessian), gradient)
+
+        h = self._sigmoid(np.dot(X, self.beta))
+        gradient = np.dot(X.T, (h - y)) / y.size
+        diag = np.multiply(h, (1 - h)) * np.identity(n_samples)
+        hessian = (1 / n_samples) * np.dot(np.dot(X.T, diag), X)
+        self.beta = self.beta - np.dot(np.linalg.inv(hessian), gradient)
 
     def predict(self, X):
-        X = np.concatenate((np.ones((X.shape[0], 1)), X.to_numpy()), axis=1)
+        X = X.todense()
 
         linear_model = np.dot(X, self.beta)
         y_predicted = self._sigmoid(linear_model)
