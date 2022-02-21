@@ -107,7 +107,7 @@ class LogisticRegressionNewton(Model):
         n, d = X.shape
         y = y.reshape(1, n)
 
-        z = X @ self.W.T)
+        z = X @ self.W.T
         gz = sigmoid(z)
         print(gz.shape)
         cost_func_deriv = gz*(1 - gz)
