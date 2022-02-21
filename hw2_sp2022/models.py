@@ -101,10 +101,9 @@ class LogisticRegressionNewton(Model):
         self.beta = None
 
     def fit(self, X, y):
+        X = X.todense()
         n_samples, n_features = X.shape
 
-        # or: X = np.hstack((np.ones((y.n_samples, 1)), X))
-        X = np.hstack((np.ones((y.n_samples, 1)), X))
 
         # init parameters
         self.beta = np.zeros(n_features + 1)
