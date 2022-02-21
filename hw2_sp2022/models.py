@@ -126,7 +126,7 @@ class LogisticRegressionNewton(Model):
 
     def predict(self, X):
         X = X.todense()
-
+        X = fix_test_feats(X, self.n_features)
         linear_model = np.dot(X, self.beta)
         y_predicted = self._sigmoid(linear_model)
         y_predicted_cls = [1 if i > 0.5 else 0 for i in y_predicted]
