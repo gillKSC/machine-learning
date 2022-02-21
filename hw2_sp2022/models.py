@@ -116,7 +116,7 @@ class LogisticRegressionNewton(Model):
         
         #print(h.shape)
         #print(X.T.shape)
-        gradient = np.dot(X.T, (y - h))
+        gradient = np.dot(np.transpose(X), (y - h))
         #print(gradient.shape)
         diag = np.multiply(h.T, (1 - h)) * np.identity(n_samples)
         #print(diag.shape)
