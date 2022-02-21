@@ -109,7 +109,7 @@ class LogisticRegressionNewton(Model):
 
         
         # init parameters
-        self.beta = np.zeros((n_features+1),1)
+        self.beta = np.zeros((n_features+1,1))
         one = np.ones((n_samples, 1))
         X = np.column_stack((X, one))
         h = sigmoid(np.dot(X, self.beta))
