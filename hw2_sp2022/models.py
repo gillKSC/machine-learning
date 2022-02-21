@@ -121,7 +121,7 @@ class LogisticRegressionNewton(Model):
         subtr = np.dot(np.linalg.pinv(hessian), gradient)
         #print(subtr.shape)
         for i in range(n_features):
-            self.beta[i] = np.subtract(self.beta[i], subtr)
+            self.beta[i, :] = np.subtract(self.beta[i, :], subtr)
         #print(self.beta.shape)
 
     def predict(self, X):
