@@ -127,4 +127,5 @@ class LogisticRegressionNewton(Model):
         return np.array(y_predicted_cls)
 
     def _sigmoid(self, x):
+        x = np.clip(x, a_min = -709, a_max = 709)
         return 1 / (1 + np.exp(-x))
