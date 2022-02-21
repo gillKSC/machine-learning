@@ -128,9 +128,9 @@ class LogisticRegressionNewton(Model):
         #self.beta = self.beta - subtr
         #print(self.beta.shape)
         
-        secDerivLogL = np.identity(n_features+1)
-        for i in range(n_features+1):
-            for j in range(n_features+1):
+        secDerivLogL = np.identity(n_features)
+        for i in range(n_features):
+            for j in range(n_features):
                 a = np.dot(h.T, (1-h))
                 b = np.dot(X[:,i].T, X[:,j])
                 
