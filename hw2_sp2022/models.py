@@ -113,7 +113,7 @@ class LogisticRegressionNewton(Model):
         one = np.ones((n_samples, 1))
         X = np.column_stack((X, one))
         h = sigmoid(np.dot(X, self.beta))
-        
+        y = y.reshape(n_samples,1)
         print(y.shape)
         print(X.T.shape)
         gradient = np.dot(X.T, (y - h))
