@@ -104,12 +104,13 @@ class LogisticRegressionNewton(Model):
         X = X.todense()
         n_samples, n_features = X.shape
 
-        print(self.beta.shape)
+        
         # init parameters
         self.beta = np.zeros(n_features+1)
         one = np.ones((n_samples, 1))
         X = np.column_stack((X, one))
         h = self._sigmoid(np.dot(X, self.beta))
+        print(self.beta.shape)
         print(h.shape)
         print(X.T.shape)
         gradient = np.dot(X.T, (h - y).T) / n_samples
