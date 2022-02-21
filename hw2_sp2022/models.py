@@ -110,8 +110,8 @@ class LogisticRegressionNewton(Model):
         one = np.ones((n_samples, 1))
         X = np.column_stack((X, one))
         h = self._sigmoid(np.dot(X, self.beta))
-
-        gradient = np.dot(X.T, (h - y).T) / n_samples
+        print(h.shape)
+        gradient = np.dot(X.T, (h - y)) / n_samples
         print(gradient.shape)
         diag = np.multiply(h, (1 - h)) * np.identity(n_samples)
         print(diag.shape)
