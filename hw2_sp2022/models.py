@@ -51,9 +51,9 @@ class LogisticRegressionSGD(Model):
 
     def fit(self, X, y):
         X = X.todense()
-        n, d = X.shape
+        num_examples, num_input_features = X.shape
 
-        for i in range(n):
+        for i in range(num_examples):
             x_p = X[i, :]
             y_p = y[i]
 
@@ -72,11 +72,11 @@ class LogisticRegressionSGD(Model):
         print(X.shape)
         X = fix_test_feats(X, self.n_features)
         print(X.shape)
-        n, d = X.shape
+        num_examples, num_input_features  = X.shape
 
 
-        y_hat = np.zeros(n)
-        for i in range(n):
+        y_hat = np.zeros(num_examples)
+        for i in range(num_examples):
             x_p = X[i]
             logits = np.dot(x_p, self.W)
             y_p = sigmoid(logits)
