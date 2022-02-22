@@ -114,7 +114,7 @@ class LogisticRegressionNewton(Model):
                 
                 secDerivLogL[i][j] -= b* a
 
-        self.beta -= np.dot(np.linalg.pinv(secDerivLogL), gradient)
+        self.beta -= np.dot(np.linalg.inv(secDerivLogL), gradient)
 
     def predict(self, X):
 
