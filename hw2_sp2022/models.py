@@ -4,14 +4,7 @@ def sigmoid(x):
     x = np.clip(x, a_min = -709, a_max = 709)
     return 1 / (1 + np.exp(-x))
 
-def column(matrix, i):
-    return [row[i] for row in matrix]
-
 def fix_test_feats(X, n_features):
-        """ Fixes some feature disparities between datasets.
-        Call this before you perform inference to make sure your X features
-        match your weights.
-        """
         num_examples, num_input_features = X.shape
         if num_input_features < n_features:
             zero = np.zeros((num_examples, 1))
@@ -57,45 +50,44 @@ class LogisticRegressionSGD(Model):
         self.W = np.zeros((n_features, 1))
 
     def fit(self, X, y):
+        
         X = X.todense()
-        n, d = X.shape
+        num_examples, num_input_features = X.shape
 
-        for i in range(n):
-            x_p = X[i, :]
-            y_p = y[i]
+        for i in range(num_examples):
+            x_i = X[i, :]
+            y_i = y[i]
             
             
-            logits = np.dot(x_p, self.W)
-            h = sigmoid(logits) 
+            logits = np.dot(x_i, self.W)
+            sig = sigmoid(logits) 
 
-            gradient = np.multiply(x_p, (y_p - h))
+            gradient = np.multiply(x_i, (y_i - h))
 
-            self.W = self.W + self.learning_rate * gradient.T
+            self.W = self.W + self.learning_rate * sig.T
 
     
     def predict(self, X):
 
         X = X.todense()
-        print(X.shape)
         X = fix_test_feats(X, self.n_features)
-        print(X.shape)
-        n, d = X.shape
+        num_examples, num_input_features = X.shape
         
         
-        y_hat = np.zeros(n)
-        for i in range(n):
-            x_p = X[i]
-            logits = np.dot(x_p, self.W)
-            y_p = sigmoid(logits)
+        y_bi = np.zeros(num_examples)
+        for i in range(num_examples):
+            x_i = X[i]
+            logits = np.dot(x_i, self.W)
+            y_pre = sigmoid(logits)
 
-            if y_p >= 0.5:
-                y_hat[i] = 1 
+            if y_pre >= 0.5:
+                y_bi[i] = 1 
 
         
 
-        y_hat = y_hat.astype(int)
+        y_bi = y_bi.astype(int)
 
-        return y_hat
+        return y_bi
     
 class LogisticRegressionNewton(Model):
     
@@ -107,26 +99,11 @@ class LogisticRegressionNewton(Model):
         X = X.todense()
         n_samples, n_features = X.shape
 
-        
-        # init parameters
         self.beta = np.zeros((n_features,1))
-        #one = np.ones((n_samples, 1))
-        #X = np.column_stack((X, one))
+
         h = sigmoid(np.dot(X, self.beta))
         y = y.reshape(n_samples,1)
-        print(y.shape)
-        print(X.T.shape)
         gradient = np.dot(X.T, (y - h))
-        #print(gradient.shape)
-        #diag = np.multiply(h.T, (1 - h)) * np.identity(n_samples)
-        #print(diag.shape)
-        #hessian = (1 / n_samples) * np.dot(np.dot(X.T, diag), X)
-        #print(hessian.shape)
-        #subtr = np.dot(np.linalg.pinv(hessian), gradient)
-        #print(subtr.shape)
-
-        #self.beta = self.beta - subtr
-        #print(self.beta.shape)
         
         secDerivLogL = np.identity(n_features)
         for i in range(n_features):
@@ -135,8 +112,7 @@ class LogisticRegressionNewton(Model):
                 b = np.dot(X[:,i].T, X[:,j])
                 
                 secDerivLogL[i][j] -= b* a
-        print(secDerivLogL.shape)
-        print(gradient.shape)
+
         self.beta -= np.dot(np.linalg.pinv(secDerivLogL), gradient)
 
     def predict(self, X):
