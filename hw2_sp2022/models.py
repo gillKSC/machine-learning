@@ -49,45 +49,46 @@ class LogisticRegressionSGD(Model):
         self.learning_rate = learning_rate
         self.W = np.zeros((n_features, 1))
 
-    def fit(self, X, y):
-        
+        def fit(self, X, y):
         X = X.todense()
-        num_examples, num_input_features = X.shape
+        n, d = X.shape
 
-        for i in range(num_examples):
-            x_i = X[i, :]
-            y_i = y[i]
-            
-            
-            logits = np.dot(x_i, self.W)
-            sig = sigmoid(logits) 
+        for i in range(n):
+            x_p = X[i, :]
+            y_p = y[i]
 
-            gradient = np.multiply(x_i, (y_i - sig))
 
-            self.W = self.W + self.learning_rate * sig.T
+            logits = np.dot(x_p, self.W)
+            h = sigmoid(logits) 
 
-    
+            gradient = np.multiply(x_p, (y_p - h))
+
+            self.W = self.W + self.learning_rate * gradient.T
+
+
     def predict(self, X):
 
         X = X.todense()
+        print(X.shape)
         X = fix_test_feats(X, self.n_features)
-        num_examples, num_input_features = X.shape
-        
-        
-        y_bi = np.zeros(num_examples)
-        for i in range(num_examples):
-            x_i = X[i]
-            logits = np.dot(x_i, self.W)
-            y_pre = sigmoid(logits)
+        print(X.shape)
+        n, d = X.shape
 
-            if y_pre >= 0.5:
-                y_bi[i] = 1 
 
-        
+        y_hat = np.zeros(n)
+        for i in range(n):
+            x_p = X[i]
+            logits = np.dot(x_p, self.W)
+            y_p = sigmoid(logits)
 
-        y_bi = y_bi.astype(int)
+            if y_p >= 0.5:
+                y_hat[i] = 1 
 
-        return y_bi
+
+
+        y_hat = y_hat.astype(int)
+
+        return y_hat
     
 class LogisticRegressionNewton(Model):
     
