@@ -98,7 +98,7 @@ def train(args):
         model = models.LogisticRegressionNewton(n_features=X.shape[1])
     else:
         raise Exception("Algorithm argument not recognized")
-
+    print(args.train_epochs)
     # Run the training loop
     for epoch in range(args.train_epochs):
         model.fit(X=X, y=y)
