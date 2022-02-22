@@ -49,7 +49,7 @@ class LogisticRegressionSGD(Model):
         self.learning_rate = learning_rate
         self.W = np.zeros((n_features, 1))
 
-        def fit(self, X, y):
+    def fit(self, X, y):
         X = X.todense()
         n, d = X.shape
 
