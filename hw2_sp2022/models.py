@@ -117,7 +117,7 @@ class LogisticRegressionNewton(Model):
         X = fix_test_feats(X, self.n_features)
         n_samples, n_features = X.shape
 
-        y_hat = np.zeros(n_samples)
+        y_pre = np.zeros(n_samples)
         for i in range(n_samples):
             x_i = X[i]
             logits = np.dot(x_i, self.W)
