@@ -106,7 +106,7 @@ class LogisticRegressionNewton(Model):
         y = y.reshape(n_samples,1)
         gradient = np.matmul(X.T, (y - h))
         
-        secDerivLogL = np.zeros(n_features, n_features)
+        secDerivLogL = np.zeros((n_features, n_features))
         for i in range(n_features):
             for j in range(n_features):
                 a = np.dot(h.T, (1-h))
