@@ -100,29 +100,19 @@ class LogisticRegressionNewton(Model):
         X = X.todense()
         n_samples, n_features = X.shape
 
-        #h = sigmoid(np.dot(X, self.beta))
-        #y = y.reshape(n_samples,1)
-        #gradient = np.matmul(X.T, (y - h))
-        #print(h.shape)
-        #print((1-h).shape)
-        #print(np.multiply(h,(1-h)).shape)
+        h = sigmoid(np.dot(X, self.beta))
+        y = y.reshape(n_samples,1)
+        gradient = np.multiply(X.T, (y - h))
+        
         secDerivLogL = np.identity(n_features)
         for i in range(n_features):
-            X1 = X[i, :]
-            y_p = y[i]
-
-
-            log = np.dot(X1, self.beta)
-            h1 = sigmoid(log) 
-            gradient = np.multiply(X1, (y_p - h1))
             for j in range(n_features):
-                for k in range(n_features):
-                    a = h1*(1-h1)
-                    b = np.multiply(X1[:, j], X1[:, k])
+                a = np.dot(h.T, (1-h))
+                b = np.dot(X[:,i].T, X[:,j])
                 
-                    secDerivLogL[j][k] -= b * a
-            
-            self.beta -= np.dot(np.linalg.pinv(secDerivLogL), gradient)
+                secDerivLogL[i][j] -= np.dot(b, a)
+
+        self.beta -= np.dot(np.linalg.inv(secDerivLogL), gradient)
 
     def predict(self, X):
 
