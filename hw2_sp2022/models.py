@@ -130,7 +130,7 @@ class LogisticRegressionNewton(Model):
             for j in range(p):
                 print(X[i,j].shape)
                 for k in range(p):
-                    deriv2nd[j][k] -= X[i][j] * X[i][k] * piB * (1-piB)
+                    deriv2nd[j][k] -= X[i,j] * X[i,k] * piB * (1-piB)
         
         self.beta = self.beta - np.linalg.inv(deriv2nd).dot(deriv1st)
 
