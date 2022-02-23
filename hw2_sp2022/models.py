@@ -54,14 +54,14 @@ class LogisticRegressionSGD(Model):
         num_examples, num_input_features = X.shape
 
         for i in range(num_examples):
-            x_p = X[i, :]
-            y_p = y[i]
+            x_i = X[i, :]
+            y_i = y[i]
 
 
-            logits = np.dot(x_p, self.W)
+            logits = np.dot(x_i, self.W)
             h = sigmoid(logits) 
 
-            gradient = np.multiply(x_p, (y_p - h))
+            gradient = np.multiply(x_i, (y_i - h))
 
             self.W = self.W + self.learning_rate * gradient.T
 
@@ -77,9 +77,9 @@ class LogisticRegressionSGD(Model):
 
         y_hat = np.zeros(num_examples)
         for i in range(num_examples):
-            x_p = X[i]
-            logits = np.dot(x_p, self.W)
-            y_p = sigmoid(logits)
+            x_i = X[i]
+            logits = np.dot(x_i, self.W)
+            y_i = sigmoid(logits)
 
             if y_p >= 0.5:
                 y_hat[i] = 1 
@@ -121,8 +121,8 @@ class LogisticRegressionNewton(Model):
 
         y_hat = np.zeros(n)
         for i in range(n):
-            x_p = X[i]
-            logits = np.dot(x_p, self.W)
+            x_i = X[i]
+            logits = np.dot(x_i, self.W)
             y_p = sigmoid(logits)
 
             if y_p >= 0.5:
