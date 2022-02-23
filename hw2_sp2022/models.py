@@ -123,7 +123,7 @@ class LogisticRegressionNewton(Model):
         h = sigmoid(np.dot(X, self.beta.T))
         deriv1st = np.dot(X.T, (y - h))
         for i in range(n):
-            xTB = (self.beta).transpose().dot(X[i])
+            xTB = (self.beta).dot(X[i].transpose())
             piB = sigmoid(xTB)
             print(piB.shape)
             diff = y[i] - piB
