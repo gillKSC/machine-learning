@@ -128,6 +128,7 @@ class LogisticRegressionNewton(Model):
             print(piB.shape)
             diff = y[i] - piB
             for j in range(p):
+                print(X[i][j].shape)
                 for k in range(p):
                     deriv2nd[j][k] -= X[i][j] * X[i][k] * piB * (1-piB)
         
