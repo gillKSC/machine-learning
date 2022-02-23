@@ -120,7 +120,7 @@ class LogisticRegressionNewton(Model):
         deriv1st = np.zeros(p)
         deriv2nd = np.zeros((p,p))
         #self.beta = self.beta.reshape(p,1)
-        h = sigmoid(np.dot(X, self.beta))
+        h = sigmoid(np.dot(X, self.beta.T))
         deriv1st = np.dot(X.T, (y - h))
         for i in range(n):
             xTB = X[i].transpose().dot(self.beta)
