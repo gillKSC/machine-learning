@@ -125,6 +125,7 @@ class LogisticRegressionNewton(Model):
         for i in range(n):
             xTB = X[i].transpose().dot(self.beta)
             piB = sigmoid(xTB)
+            print(piB.shape)
             diff = y[i] - piB
             for j in range(p):
                 for k in range(p):
