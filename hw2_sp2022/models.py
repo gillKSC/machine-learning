@@ -105,11 +105,12 @@ class LogisticRegressionNewton(Model):
         h = sigmoid(np.dot(X, self.beta))
         y = y.reshape(n_samples,1)
         gradient = np.matmul(X.T, (y - h))
-        
+        print(h.shape)
+        print((1-h).shape)
         secDerivLogL = np.identity(n_features)
         for i in range(n_features):
             for j in range(n_features):
-                a = np.multiply(h, (1-h))
+                a = np.dot(h.T, (1-h))
                 b = np.dot(X[:,i].T, X[:,j])
                 
                 secDerivLogL[i][j] -= np.dot(b, a)
