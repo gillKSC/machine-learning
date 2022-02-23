@@ -72,23 +72,23 @@ class LogisticRegressionSGD(Model):
         print(X.shape)
         X = fix_test_feats(X, self.n_features)
         print(X.shape)
-        num_examples, num_input_features  = X.shape
+        num_examples, num_input_features = X.shape
 
 
-        y_hat = np.zeros(num_examples)
+        y_pre = np.zeros(num_examples)
         for i in range(num_examples):
             x_i = X[i]
             logits = np.dot(x_i, self.W)
-            y_i = sigmoid(logits)
+            y_p = sigmoid(logits)
 
             if y_p >= 0.5:
-                y_hat[i] = 1 
+                y_pre[i] = 1 
 
 
 
-        y_hat = y_hat.astype(int)
+        y_pre = y_pre.astype(int)
 
-        return y_hat
+        return y_pre
     
 class LogisticRegressionNewton(Model):
     
@@ -117,10 +117,10 @@ class LogisticRegressionNewton(Model):
 
         X = X.todense()
         X = fix_test_feats(X, self.n_features)
-        n, d = X.shape
+        n_samples, n_features = X.shape
 
-        y_hat = np.zeros(n)
-        for i in range(n):
+        y_hat = np.zeros(n_samples)
+        for i in range(n_samples):
             x_i = X[i]
             logits = np.dot(x_i, self.W)
             y_p = sigmoid(logits)
