@@ -99,7 +99,7 @@ class LogisticRegressionNewton(Model):
     def fit(self, X, y):
         X = X.todense()
         n_samples, n_features = X.shape
-"""
+        """
         h = sigmoid(np.dot(X, self.beta))
         y = y.reshape(n_samples,1)
         gradient = np.dot(X.T, (y - h))
