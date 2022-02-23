@@ -114,13 +114,14 @@ class LogisticRegressionNewton(Model):
 
         self.beta = self.beta - np.dot(np.linalg.pinv(secDerivLogL), gradient)
         """
+        
         n = X.shape[0] #total of data points
         p = X.shape[1] #total number of attributes
         deriv1st = np.zeros(p)
         deriv2nd = np.zeros((p,p))
-
+        self.deta = self.deta.reshape(p,1)
         for i in range(n):
-            xTB = X[i].transpose().dot(self.beta)
+            xTB = X[i].dot(self.beta)
             piB = sigmoid(xTB)
             diff = y[i] - piB
             deriv1st += X[i] * diff
