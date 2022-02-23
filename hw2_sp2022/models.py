@@ -5,14 +5,14 @@ def sigmoid(x):
     return 1 / (1 + np.exp(-x))
 
 def fix_test_feats(X, n_features):
-        num_examples, num_input_features = X.shape
-        if num_input_features < n_features:
-            zero = np.zeros((num_examples, 1))
-            for i in range(n_features - num_input_features):
-                X = np.column_stack((X, zero))
-        if num_input_features > n_features:
-            X = X[:, :n_features]
-        return X
+    num_examples, num_input_features = X.shape
+    if num_input_features < n_features:
+        zero = np.zeros((num_examples, 1))
+        for i in range(n_features - num_input_features):
+            X = np.column_stack((X, zero))
+    if num_input_features > n_features:
+        X = X[:, :n_features]
+    return X
     
 class Model(object):
 
@@ -94,13 +94,13 @@ class LogisticRegressionNewton(Model):
     
     def __init__(self, n_features):
         self.n_features = n_features
-        self.beta = np.zeros((n_features,1))
+        self.W = np.zeros((n_features,1))
 
     def fit(self, X, y):
         X = X.todense()
         n_samples, n_features = X.shape
 
-        h = sigmoid(np.dot(X, self.beta))
+        h = sigmoid(np.dot(X, self.W))
         y = y.reshape(n_samples,1)
         gradient = np.dot(X.T, (y - h))
         hessian = np.zeros((n_features,n_features))
@@ -111,7 +111,7 @@ class LogisticRegressionNewton(Model):
                 hessia_ij = np.sum(np.multiply(a, b))
                 hessian[i,j] = -hessia_ij
 
-        self.beta = self.beta - np.dot(np.linalg.pinv(hessian), gradient)
+        self.W = self.W - np.dot(np.linalg.pinv(hessian), gradient)
 
     def predict(self, X):
 
@@ -122,7 +122,7 @@ class LogisticRegressionNewton(Model):
         y_hat = np.zeros(n)
         for i in range(n):
             x_p = X[i]
-            logits = np.dot(x_p, self.beta)
+            logits = np.dot(x_p, self.W)
             y_p = sigmoid(logits)
 
             if y_p >= 0.5:
