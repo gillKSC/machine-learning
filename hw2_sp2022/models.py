@@ -69,9 +69,7 @@ class LogisticRegressionSGD(Model):
     def predict(self, X):
 
         X = X.todense()
-        print(X.shape)
         X = fix_test_feats(X, self.n_features)
-        print(X.shape)
         num_examples, num_input_features = X.shape
 
 
