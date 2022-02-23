@@ -103,7 +103,12 @@ class LogisticRegressionNewton(Model):
         h = sigmoid(np.dot(X, self.beta))
         y = y.reshape(n_samples,1)
         gradient = np.dot(X.T, (y - h))
-
+        hessian = np.zeros((X.shape[1],X.shape[1]))
+        for i in range(hessian.shape[0]):
+            for j in range(hessian.shape[1]):
+                hessia_ij = np.mean(h * (1 - h) * X[:,i] * X[:,j])
+                hessian[i,j] = hessia_ij
+"""
         secDerivLogL = np.identity(n_features)
         for i in range(n_features):
             for j in range(n_features):
@@ -111,8 +116,9 @@ class LogisticRegressionNewton(Model):
                 b = np.dot(X[:,i].T, X[:,j])
 
                 secDerivLogL[i][j] -= np.dot(b, a)
+                """
 
-        self.beta = self.beta - np.dot(np.linalg.pinv(secDerivLogL), gradient)
+        self.beta = self.beta - np.dot(np.linalg.pinv(hessian), gradient)
 
     def predict(self, X):
 
