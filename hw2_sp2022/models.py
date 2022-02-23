@@ -119,7 +119,7 @@ class LogisticRegressionNewton(Model):
         p = X.shape[1] #total number of attributes
         deriv1st = np.zeros(p)
         deriv2nd = np.zeros((p,p))
-        self.deta = self.deta.reshape(p,1)
+        self.beta = self.beta.reshape(p,1)
         for i in range(n):
             xTB = X[i].dot(self.beta)
             piB = sigmoid(xTB)
