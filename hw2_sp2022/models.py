@@ -94,7 +94,7 @@ class LogisticRegressionNewton(Model):
     
     def __init__(self, n_features):
         self.n_features = n_features
-        self.beta = np.random.rand(n_features)
+        self.beta = np.zeros((1, n_features))
 
     def fit(self, X, y):
         X = X.todense()
@@ -119,12 +119,11 @@ class LogisticRegressionNewton(Model):
         p = X.shape[1] #total number of attributes
         deriv1st = np.zeros(p)
         deriv2nd = np.zeros((p,p))
-        self.beta = self.beta.reshape(p,1)
+        #self.beta = self.beta.reshape(p,1)
         h = sigmoid(np.dot(X, self.beta))
-        y = y.reshape(n_samples,1)
         deriv1st = np.dot(X.T, (y - h))
         for i in range(n):
-            xTB = X[i].dot(self.beta)
+            xTB = X[i].transpose().dot(self.beta)
             piB = sigmoid(xTB)
             diff = y[i] - piB
             for j in range(p):
