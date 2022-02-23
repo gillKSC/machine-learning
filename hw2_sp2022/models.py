@@ -119,12 +119,12 @@ class LogisticRegressionNewton(Model):
 
             for j in range(n_features):
                 for k in range(n_features):
-                    a = np.multiply(h1,(1-h1))
+                    a = h1*(1-h1)
                     b = np.multiply(X1[:, j], X1[:, k])
                 
-                    secDerivLogL[j][k] -= np.dot(b, a)
+                    secDerivLogL[j][k] -= b * a
             
-        self.beta -= np.dot(np.linalg.pinv(secDerivLogL), gradient)
+            self.beta -= np.dot(np.linalg.pinv(secDerivLogL), gradient)
 
     def predict(self, X):
 
