@@ -106,7 +106,7 @@ class LogisticRegressionNewton(Model):
         y = y.reshape(n_samples,1)
         gradient = np.matmul(X.T, (y - h))
         
-        secDerivLogL = np.identity(n_features)
+        secDerivLogL = np.zeros(n_features, n_features)
         for i in range(n_features):
             for j in range(n_features):
                 a = np.dot(h.T, (1-h))
@@ -114,7 +114,7 @@ class LogisticRegressionNewton(Model):
                 
                 secDerivLogL[i][j] -= np.dot(b, a)
 
-        self.beta -= np.dot(np.linalg.inv(secDerivLogL), gradient)
+        self.beta -= np.dot(np.linalg.pinv(secDerivLogL), gradient)
 
     def predict(self, X):
 
