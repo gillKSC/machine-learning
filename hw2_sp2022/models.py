@@ -107,7 +107,7 @@ class LogisticRegressionNewton(Model):
         gradient = np.matmul(X.T, (y - h))
         print(h.shape)
         print((1-h).shape)
-        print((h*(1-h)).shape)
+        print(np.multiply(h,(1-h)).shape)
         secDerivLogL = np.identity(n_features)
         for i in range(n_features):
             for j in range(n_features):
