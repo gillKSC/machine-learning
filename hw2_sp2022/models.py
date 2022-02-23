@@ -108,8 +108,8 @@ class LogisticRegressionNewton(Model):
             for j in range(hessian.shape[1]):
                 a = np.multiply(h, (1-h))
                 b = np.multiply(X[:,i], X[:,j])
-                hessia_ij = np.mean(np.multiply(a, b))
-                hessian[i,j] = hessia_ij
+                hessia_ij = np.sum(np.multiply(a, b))
+                hessian[i,j] = -hessia_ij
         """
         secDerivLogL = np.identity(n_features)
         for i in range(n_features):
