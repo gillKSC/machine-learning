@@ -99,39 +99,22 @@ class LogisticRegressionNewton(Model):
     def fit(self, X, y):
         X = X.todense()
         n_samples, n_features = X.shape
-        """
+
         h = sigmoid(np.dot(X, self.beta))
         y = y.reshape(n_samples,1)
         gradient = np.dot(X.T, (y - h))
         
         secDerivLogL = np.identity(n_features)
-        for i in range(n_features):
-            for j in range(n_features):
-                a = np.dot(h.T, (1-h))
-                b = np.dot(X[:,i].T, X[:,j])
+        for k in range(n_samples):
+            a = h[k] * (1-h[k])
+            for i in range(n_features):
+                for j in range(n_features):
+
+                    b = X[k,i]*X[k,j]
                 
-                secDerivLogL[i][j] -= np.dot(b, a)
+                    secDerivLogL[i][j] -= b * a
 
         self.beta = self.beta - np.dot(np.linalg.pinv(secDerivLogL), gradient)
-        """
-        
-        n = X.shape[0] #total of data points
-        p = X.shape[1] #total number of attributes
-        deriv1st = np.zeros(p)
-        deriv2nd = np.zeros((p,p))
-        #self.beta = self.beta.reshape(p,1)
-        h = sigmoid(np.dot(X, self.beta))
-        deriv1st = np.dot(X.T, (y - h))
-        for i in range(n):
-            xTB = (X[i]).dot(self.beta)
-            piB = sigmoid(xTB)
-            print(piB.shape)
-            diff = y[i] - piB
-            for j in range(p):
-                for k in range(p):
-                    deriv2nd[j][k] -= X[i,j] * X[i,k] * piB * (1-piB)
-        
-        self.beta = self.beta - np.linalg.inv(deriv2nd).dot(deriv1st)
 
     def predict(self, X):
 
