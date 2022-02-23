@@ -124,7 +124,7 @@ class LogisticRegressionNewton(Model):
             xTB = X[i].dot(self.beta)
             piB = sigmoid(xTB)
             diff = y[i] - piB
-            deriv1st += np.multiply(X[i], diff)
+            deriv1st = np.dot(X.T, diff)
             for j in range(p):
                 for k in range(p):
                     deriv2nd[j][k] -= X[i][j] * X[i][k] * piB * (1-piB)
