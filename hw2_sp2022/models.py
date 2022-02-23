@@ -110,14 +110,21 @@ class LogisticRegressionNewton(Model):
         print(np.multiply(h,(1-h)).shape)
         secDerivLogL = np.identity(n_features)
         for i in range(n_features):
-            X1 = X[i,:]
-            for j in range(n_features):
-                a = np.multiply(h,(1-h))
-                b = np.multiply(X[:,i], X[:,j])
-                c = np.multiply(X1, a)
-                
-                secDerivLogL[i][j] -= np.dot(b.T, c)
+            X1 = X[i, :]
+            y_p = y[i]
 
+
+            log = np.dot(X1, self.beta)
+            h1 = sigmoid(logits) 
+
+            for j in range(n_features):
+                for k in range(n_features):
+                    a = np.multiply(h1,(1-h1))
+                    b = np.multiply(X1[j], X1[k])
+                    c = np.multiply(X1, a)
+                
+                    secDerivLogL[j][k] -= np.dot(b.T, c)
+            
         self.beta -= np.dot(np.linalg.pinv(secDerivLogL), gradient)
 
     def predict(self, X):
