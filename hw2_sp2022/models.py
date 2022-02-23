@@ -124,10 +124,10 @@ class LogisticRegressionNewton(Model):
             y_p = sigmoid(logits)
 
             if y_p >= 0.5:
-                y_hat[i] = 1 
+                y_pre[i] = 1 
 
         
 
-        y_hat = y_hat.astype(int)
+        y_pre = y_pre.astype(int)
 
-        return y_hat
+        return y_pre
