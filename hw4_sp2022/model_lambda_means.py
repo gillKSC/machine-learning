@@ -54,8 +54,9 @@ class Model(object):
             X = X[:, :self.num_input_features]
         return X
 
+class LambdaMeans(Model):
 
-def __init__(self, *, nfeatures, lambda0):
+    def __init__(self, *, nfeatures, lambda0):
         super().__init__(nfeatures)
         """
         Args:
