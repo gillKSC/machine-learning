@@ -125,10 +125,10 @@ class LambdaMeans(Model):
                     clusterBins.append([])
                 clusterBins[min_center_index].append(x_i) #actually put this point in a cluster
 
-            for cluster_index, cluster_points in enumerate(clusterBins):
-                # print(len(cluster_points), "points in cluster", cluster_index)
-                # re assign the center to be the mean of the points in this cluster
-                self.mu_k[cluster_index] = np.mean(cluster_points, axis=0)
+        for cluster_index, cluster_points in enumerate(clusterBins):
+            # print(len(cluster_points), "points in cluster", cluster_index)
+            # re assign the center to be the mean of the points in this cluster
+            self.mu_k[cluster_index] = np.mean(cluster_points, axis=0)
         return
     
     def distance(self, point1, point2):
