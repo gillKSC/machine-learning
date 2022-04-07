@@ -95,14 +95,15 @@ class LambdaMeans(Model):
                 totalDistanceFromMean += self.distance(x_i, mean)
             self.lambda0 = totalDistanceFromMean/n
         #print('lambda0', self.lambda0)
+        
         clusterBins = [] #each cluster has a bin of points
         clusterBins.append([]) #since we start with 1 cluster
         for iteration in range(my_iterations):
             #clear the assignments to those clusters, we will reassign them now
-            #for i in range(len(self.mu_k)):
-             #   if len(clusterBins[i]) == 0:
-              #      self.mu_k[i] = origin
-               # clusterBins[i] = []
+            for i in range(len(self.mu_k)):
+                if len(clusterBins[i]) == 0:
+                    self.mu_k[i] = mean
+                clusterBins[i] = []
             # for each point, put it in a cluster bin
             for i, x_i in enumerate(X):
                 x_i = x_i.toarray()[0]
