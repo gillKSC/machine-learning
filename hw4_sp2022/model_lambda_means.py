@@ -118,9 +118,10 @@ class LambdaMeans(Model):
                 if(min_distance > self.lambda0):
                     # all of the clusters were bad
                     min_distance = 0
-                    min_center_index = len(self.mu_k) + 1
+                    #min_center_index = len(self.mu_k) + 1
                     #make a new cluster, with a center at this point that was far from other clust
                     self.mu_k.append(x_i)
+                    min_center_index = len(self.mu_k)
                     #we have a new cluster, so add a new cluster bin
                     clusterBins.append([])
                 clusterBins[min_center_index].append(x_i) #actually put this point in a cluster
