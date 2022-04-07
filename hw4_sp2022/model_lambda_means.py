@@ -65,10 +65,8 @@ class LambdaMeans(Model):
             lambda0: A float giving the default value for lambda
             mu_k: vector of cluster means, the size of this vector will change
         """
-        # TODO: Initializations etc. go here.
         self.lambda0 = lambda0
-        self.mu_k = None
-        # TODO: Initializations etc. go here.            
+        self.mu_k = None      
 
 
     def fit(self, *, X, iterations):
@@ -82,10 +80,10 @@ class LambdaMeans(Model):
         """
 
         self.mu_k = []
-        mean = np.asfarray(X.mean(axis=0))[0] #center of first clsuter is mean of the data
+        mean = np.asfarray(X.mean(axis=0))[0]
         self.mu_k.append(mean)
 
-        my_iterations = 2
+        #my_iterations = 2
         my_iterations = iterations
         (n, num_features) = X.shape
         origin = [0] * num_features
@@ -94,9 +92,9 @@ class LambdaMeans(Model):
             totalDistanceFromMean = 0
             for x_i in X:
                 x_i = x_i.toarray()[0]
-                totalDistanceFromMean+=self.distance(x_i, mean)
+                totalDistanceFromMean += self.distance(x_i, mean)
             self.lambda0 = totalDistanceFromMean/n
-        print('lambda0', self.lambda0)
+        #print('lambda0', self.lambda0)
         clusterBins = [] #each cluster has a bin of points
         clusterBins.append([]) #since we start with 1 cluster
         for iteration in range(my_iterations):
@@ -127,13 +125,12 @@ class LambdaMeans(Model):
                     clusterBins.append([])
                 clusterBins[min_center_index].append(x_i) #actually put this point in a cluster
 
-            #M step
-            # print('--------------------------number of clusters', len(self.mu_k),'--------------------------')
             for cluster_index, cluster_points in enumerate(clusterBins):
                 # print(len(cluster_points), "points in cluster", cluster_index)
                 # re assign the center to be the mean of the points in this cluster
                 self.mu_k[cluster_index] = np.mean(cluster_points, axis=0)
         return
+    
     def distance(self, point1, point2):
         return np.sum(((point1 - point2)**2))**(1/2)
 
