@@ -80,8 +80,6 @@ class LambdaMeans(Model):
                 [num_examples, num_features].
             iterations: int giving number of clustering iterations
         """
-        # TODO: Implement this!
-        raise Exception("You must implement this method!")
 
         self.mu_k = []
         mean = np.asfarray(X.mean(axis=0))[0] #center of first clsuter is mean of the data
