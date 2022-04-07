@@ -83,10 +83,9 @@ class LambdaMeans(Model):
         mean = np.asfarray(X.mean(axis=0))[0]
         self.mu_k.append(mean)
 
-        #my_iterations = 2
         my_iterations = iterations
         (n, num_features) = X.shape
-        origin = [0] * num_features
+
         if(self.lambda0 == 0):
             #calculate lambda 0 to be the standard deviation of the points
             totalDistanceFromMean = 0
@@ -94,17 +93,15 @@ class LambdaMeans(Model):
                 x_i = x_i.toarray()[0]
                 totalDistanceFromMean += self.distance(x_i, mean)
             self.lambda0 = totalDistanceFromMean/n
-        #print('lambda0', self.lambda0)
         
-        clusterBins = [] #each cluster has a bin of points
-        clusterBins.append([]) #since we start with 1 cluster
+        clusters = []
+        clusters.append([]) #start with 1 cluster
         for iteration in range(my_iterations):
-            #clear the assignments to those clusters, we will reassign them now
+            #initialize clusters
             for i in range(len(self.mu_k)):
-                if len(clusterBins[i]) == 0:
+                if len(clusters[i]) == 0:
                     self.mu_k[i] = mean
-                clusterBins[i] = []
-            # for each point, put it in a cluster bin
+                clusters[i] = []
             for i, x_i in enumerate(X):
                 x_i = x_i.toarray()[0]
                 min_distance = self.distance(x_i, self.mu_k[0])
@@ -113,24 +110,20 @@ class LambdaMeans(Model):
                 for center_index, center in enumerate(self.mu_k):
                     cur_distance = self.distance(x_i, center)
                     if cur_distance < min_distance:
-                        #new best cluster
                         min_distance = cur_distance
                         min_center_index = center_index
                 if(min_distance > self.lambda0):
-                    # all of the clusters were bad
                     min_distance = 0
                     min_center_index = len(self.mu_k)
-                    #make a new cluster, with a center at this point that was far from other clust
                     self.mu_k.append(x_i)
-                    #we have a new cluster, so add a new cluster bin
-                    clusterBins.append([])
-                clusterBins[min_center_index].append(x_i) #actually put this point in a cluster
+                    #add a new cluster
+                    clusters.append([])
+                clusters[min_center_index].append(x_i) #put this point in a cluster
 
-            for cluster_index, cluster_points in enumerate(clusterBins):
-                # print(len(cluster_points), "points in cluster", cluster_index)
-                # re assign the center to be the mean of the points in this cluster
+            for cluster_index, cluster_points in enumerate(clusters):
                 self.mu_k[cluster_index] = np.mean(cluster_points, axis=0)
-        return self.mu_k, len(clusterBins)
+                
+        return self.mu_k, len(clusters)
     
     def distance(self, point1, point2):
         return np.sum(((point1 - point2)**2))**(1/2)
@@ -147,6 +140,7 @@ class LambdaMeans(Model):
         X = self._fix_test_feats(X)
         (n, num_features) = X.shape
         y = [0] * n
+        
         for i, x_i in enumerate(X):
                 x_i = x_i.toarray()[0]
                 min_distance = self.distance(x_i, self.mu_k[0])
@@ -155,8 +149,7 @@ class LambdaMeans(Model):
                 for center_index, center in enumerate(self.mu_k):
                     cur_distance = self.distance(x_i, center)
                     if cur_distance < min_distance:
-                        #new best cluster
                         min_distance = cur_distance
                         min_center_index = center_index
-                y[i]= min_center_index #actually put this point in a cluster
+                y[i]= min_center_index
         return y
