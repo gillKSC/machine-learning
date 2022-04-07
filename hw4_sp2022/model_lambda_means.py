@@ -58,7 +58,6 @@ class Model(object):
 class LambdaMeans(Model):
 
     def __init__(self, *, nfeatures, lambda0):
-def __init__(self, *, nfeatures, lambda0):
         super().__init__(nfeatures)
         """
         Args:
