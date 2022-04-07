@@ -99,10 +99,10 @@ class LambdaMeans(Model):
         clusterBins.append([]) #since we start with 1 cluster
         for iteration in range(my_iterations):
             #clear the assignments to those clusters, we will reassign them now
-            for i in range(len(self.mu_k)):
-                if len(clusterBins[i]) == 0:
-                    self.mu_k[i] = origin
-                clusterBins[i] = []
+            #for i in range(len(self.mu_k)):
+             #   if len(clusterBins[i]) == 0:
+              #      self.mu_k[i] = origin
+               # clusterBins[i] = []
             # for each point, put it in a cluster bin
             for i, x_i in enumerate(X):
                 x_i = x_i.toarray()[0]
